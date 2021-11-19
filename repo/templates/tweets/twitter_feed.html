@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block title %}
+Twitter
+{% endblock %}
+{% block content %}
+<p class="h3 p-1 mb-3">구독한 계정의 트윗 불러오기</p>
+<p class="h5 p-1 mb-3 text-muted">검색할 날짜와 구독한 계정 선택</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="검색" class="btn btn-primary">
+</form>
+{{error}}
+<hr/>
+
+{% if date.from_date %}
+<div class="p-1 text-muted border border-light">{{date.from_date}} ~ {{date.until_date}}</div>
+{% endif %}
+
+{% for key,values in datas.items%}
+<p class="p-1 h4">{{key}}</p>
+
+<div class="row g-sm-1 g-md-2 g-lg-3">
+{% for data in values %}
+<div class="col-sm-12 col-md-6 col-lg-4 mb-3">
+    <div class="card w-100">
+    {% if data.url %}
+    <img src="{{data.url.0}}" class="card-img-top" alt="...">
+    {% endif %}
+        <div class="card-body">
+            <h5 class="card-title">{{data.created_at}}</h5>
+            <p class="card-text">{{data.text}}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for img_url in data.url%}
+                <li class="list-group-item"><a target="_blank" href="{{img_url}}">이미지 {{forloop.counter}}</a></li>
+            {% endfor%}
+        </ul>
+        <div class="card-body">
+            <a href="{{data.id}}" target="_blank">Tweet link</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+</div>
+<hr/>
+{% endfor %}
+{% endblock %}

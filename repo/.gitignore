@@ -1,0 +1,12 @@
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+my_settings.py
+db.sqlite3
+db.sqlite3-journal
+media
+.flake8
+venv
+secret.py
